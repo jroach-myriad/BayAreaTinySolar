@@ -5,46 +5,1192 @@ import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 ---
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bay Area Tiny Solar — Off-Grid Energy Coaching</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Nunito:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── CSS Variables ─────────────────────────────────── */
+    :root {
+      --sun:       #E8973A;
+      --sun-light: #F4C06A;
+      --terracotta:#C1633A;
+      --soil:      #5C3D2E;
+      --forest:    #3A5C3D;
+      --forest-lt: #5C8A5F;
+      --sage:      #A8BC9A;
+      --cream:     #FAF5EC;
+      --parchment: #F0E8D6;
+      --stone:     #D6CAB8;
+      --ink:       #2C2417;
+      --mist:      #EDE8DF;
+    }
+
+    /* ─── Reset & Base ──────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+    h1, h2, h3 { font-family: 'DM Serif Display', serif; }
+    p { font-family: 'Lora', serif; line-height: 1.75; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; width: 100%; object-fit: cover; }
+
+    /* ─── Noise Texture Overlay ─────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: 0.4;
+    }
+
+    /* ─── Nav ───────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: rgba(250, 245, 236, 0.88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--stone);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(92,61,46,0.1); }
+    .nav-logo {
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .nav-logo .sun-icon {
+      width: 36px; height: 36px;
+    }
+    .nav-logo span {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      color: var(--soil);
+      line-height: 1.1;
+    }
+    .nav-logo span em {
+      display: block;
+      font-style: italic;
+      font-size: 0.75rem;
+      color: var(--terracotta);
+      letter-spacing: 0.05em;
+    }
+    .nav-links {
+      display: flex; gap: 2rem; align-items: center;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--soil);
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--terracotta); }
+    .nav-cta {
+      background: var(--terracotta);
+      color: var(--cream) !important;
+      padding: 0.55rem 1.3rem;
+      border-radius: 100px;
+      transition: background 0.2s, transform 0.15s !important;
+    }
+    .nav-cta:hover { background: var(--soil) !important; transform: translateY(-1px); }
+
+    /* ─── Hero ──────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 80px;
+      background: var(--parchment);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0; height: 80px;
+      background: var(--cream);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    /* decorative sun rays */
+    .hero-sun-bg {
+      position: absolute;
+      top: -10%; right: -5%;
+      width: 60vw; height: 60vw;
+      background: radial-gradient(circle, var(--sun-light) 0%, rgba(244,192,106,0.15) 50%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: pulse-sun 6s ease-in-out infinite;
+    }
+    @keyframes pulse-sun {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50%       { transform: scale(1.05); opacity: 1; }
+    }
+    .hero-text {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 5rem 3rem 5rem 5rem;
+      position: relative; z-index: 2;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--forest);
+      margin-bottom: 1.2rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block; width: 28px; height: 2px;
+      background: var(--forest);
+    }
+    h1.hero-title {
+      font-size: clamp(2.8rem, 4.5vw, 4.2rem);
+      line-height: 1.1;
+      color: var(--soil);
+      margin-bottom: 1.4rem;
+    }
+    h1.hero-title em {
+      color: var(--terracotta);
+      font-style: italic;
+    }
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: #5C4A38;
+      max-width: 440px;
+      margin-bottom: 2.4rem;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--terracotta);
+      color: var(--cream);
+      padding: 0.85rem 2rem;
+      border-radius: 100px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700; font-size: 0.95rem;
+      border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(193,99,58,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--soil);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(92,61,46,0.3);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--soil);
+      padding: 0.85rem 2rem;
+      border-radius: 100px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700; font-size: 0.95rem;
+      border: 2px solid var(--stone);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .btn-secondary:hover {
+      border-color: var(--terracotta);
+      color: var(--terracotta);
+      transform: translateY(-2px);
+    }
+    .hero-stats {
+      display: flex; gap: 2.5rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--stone);
+    }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem; color: var(--terracotta);
+    }
+    .stat-label {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--soil); opacity: 0.7;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .hero-image {
+      position: relative; z-index: 2;
+      display: flex; align-items: center; padding: 4rem 4rem 4rem 2rem;
+    }
+    .hero-img-frame {
+      width: 100%;
+      aspect-ratio: 4/5;
+      border-radius: 40% 60% 55% 45% / 45% 45% 55% 55%;
+      overflow: hidden;
+      background: var(--stone);
+      box-shadow: 0 30px 80px rgba(92,61,46,0.2);
+      position: relative;
+      animation: float 7s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-12px); }
+    }
+    .img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.75rem;
+      background: linear-gradient(135deg, var(--sage) 0%, var(--stone) 100%);
+      color: var(--soil); opacity: 0.7;
+      font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 600;
+    }
+    .img-placeholder svg { opacity: 0.5; }
+    .hero-badge {
+      position: absolute;
+      bottom: 12%; left: -18%;
+      background: var(--cream);
+      border-radius: 16px;
+      padding: 0.9rem 1.3rem;
+      box-shadow: 0 10px 40px rgba(92,61,46,0.15);
+      display: flex; align-items: center; gap: 0.75rem;
+      border: 1px solid var(--stone);
+      animation: float 7s ease-in-out infinite;
+      animation-delay: -3s;
+    }
+    .badge-icon {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      background: var(--sun-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+    .badge-text strong {
+      display: block;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem; color: var(--soil);
+    }
+    .badge-text span {
+      font-size: 0.75rem; color: var(--forest); font-weight: 600;
+    }
+
+    /* ─── Section Shared ────────────────────────────────── */
+    section { position: relative; }
+    .section-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 1rem;
+    }
+    .section-label::before {
+      content: ''; display: block;
+      width: 20px; height: 2px; background: var(--terracotta);
+    }
+    h2.section-title {
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      color: var(--soil);
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+    }
+    h2.section-title em { color: var(--terracotta); font-style: italic; }
+
+    /* ─── About ─────────────────────────────────────────── */
+    .about { background: var(--cream); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-img-main {
+      width: 100%;
+      aspect-ratio: 3/4;
+      border-radius: 12px 48px 12px 48px;
+      overflow: hidden;
+      background: var(--stone);
+    }
+    .about-img-accent {
+      position: absolute;
+      bottom: -8%; right: -8%;
+      width: 55%;
+      aspect-ratio: 1;
+      border-radius: 48px 12px 48px 12px;
+      overflow: hidden;
+      background: var(--parchment);
+      border: 4px solid var(--cream);
+      box-shadow: 0 10px 40px rgba(92,61,46,0.12);
+    }
+    .about-body p + p { margin-top: 1rem; }
+    .about-body p { color: #5C4A38; }
+    .about-highlights {
+      display: flex; flex-direction: column; gap: 1rem;
+      margin-top: 2rem;
+    }
+    .highlight-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .highlight-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--sun);
+      flex-shrink: 0; margin-top: 6px;
+    }
+    .highlight-item p {
+      font-size: 0.95rem; color: var(--soil); margin: 0;
+    }
+    .highlight-item strong { color: var(--terracotta); }
+
+    /* ─── Services ──────────────────────────────────────── */
+    .services { background: var(--parchment); }
+    .services::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 80px;
+      background: var(--cream);
+      clip-path: ellipse(55% 100% at 50% 0%);
+    }
+    .services::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+      background: var(--cream);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .service-card {
+      background: var(--cream);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      border: 1px solid var(--stone);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(92,61,46,0.12);
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: var(--sun);
+    }
+    .service-card:nth-child(2)::before { background: var(--forest-lt); }
+    .service-card:nth-child(3)::before { background: var(--terracotta); }
+    .service-icon {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 1.4rem;
+    }
+    .service-card:nth-child(1) .service-icon { background: rgba(232,151,58,0.15); }
+    .service-card:nth-child(2) .service-icon { background: rgba(92,138,95,0.15); }
+    .service-card:nth-child(3) .service-icon { background: rgba(193,99,58,0.15); }
+    .service-card h3 {
+      font-size: 1.3rem; color: var(--soil);
+      margin-bottom: 0.75rem;
+    }
+    .service-card p {
+      font-size: 0.92rem; color: #5C4A38;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .service-card-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--mist);
+      margin-bottom: 1.5rem;
+    }
+    .service-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700; font-size: 0.85rem;
+      color: var(--terracotta);
+      transition: gap 0.2s;
+    }
+    .service-link:hover { gap: 0.7rem; }
+    .service-card:nth-child(2) .service-link { color: var(--forest); }
+
+    /* ─── How It Works ───────────────────────────────────── */
+    .process { background: var(--cream); }
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+      position: relative;
+    }
+    .process-grid::before {
+      content: '';
+      position: absolute;
+      top: 36px; left: 12.5%; right: 12.5%; height: 2px;
+      background: repeating-linear-gradient(90deg, var(--stone) 0, var(--stone) 8px, transparent 8px, transparent 16px);
+    }
+    .process-step {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center;
+      padding: 1.5rem 1rem;
+    }
+    .step-num {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: var(--parchment);
+      border: 2px solid var(--stone);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      color: var(--terracotta);
+      margin-bottom: 1.2rem;
+      position: relative; z-index: 1;
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .process-step:hover .step-num {
+      background: var(--terracotta);
+      border-color: var(--terracotta);
+      color: var(--cream);
+    }
+    .process-step h3 {
+      font-size: 1.05rem; color: var(--soil);
+      margin-bottom: 0.5rem;
+    }
+    .process-step p {
+      font-size: 0.88rem; color: #7A6455;
+    }
+
+    /* ─── Gallery strip ─────────────────────────────────── */
+    .gallery-strip {
+      background: var(--parchment);
+      padding: 3rem 0;
+      overflow: hidden;
+    }
+    .gallery-track {
+      display: flex; gap: 1.5rem;
+      animation: scroll-gallery 30s linear infinite;
+      width: max-content;
+    }
+    .gallery-track:hover { animation-play-state: paused; }
+    @keyframes scroll-gallery {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .gallery-item {
+      width: 260px; height: 190px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--stone);
+      flex-shrink: 0;
+    }
+
+    /* ─── Testimonials ──────────────────────────────────── */
+    .testimonials { background: var(--forest); padding: 6rem 2rem; }
+    .testimonials .section-label { color: var(--sage); }
+    .testimonials .section-label::before { background: var(--sage); }
+    .testimonials h2.section-title { color: var(--cream); }
+    .testimonials h2.section-title em { color: var(--sun-light); }
+    .t-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .t-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: background 0.25s;
+    }
+    .t-card:hover { background: rgba(255,255,255,0.1); }
+    .t-stars { color: var(--sun-light); font-size: 1rem; margin-bottom: 1rem; letter-spacing: 2px; }
+    .t-card p {
+      font-size: 0.95rem; color: rgba(250,245,236,0.85);
+      line-height: 1.7; margin-bottom: 1.5rem;
+    }
+    .t-author {
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .t-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      overflow: hidden; background: var(--stone);
+      flex-shrink: 0;
+    }
+    .t-name {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700; font-size: 0.9rem;
+      color: var(--cream);
+    }
+    .t-location {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.78rem; color: var(--sage);
+    }
+
+    /* ─── Contact ───────────────────────────────────────── */
+    .contact { background: var(--cream); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact-info h2 { margin-bottom: 1rem; }
+    .contact-info p { color: #5C4A38; margin-bottom: 2rem; }
+    .contact-details {
+      display: flex; flex-direction: column; gap: 1.2rem;
+      margin-top: 2rem;
+    }
+    .contact-detail-item {
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .detail-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: var(--parchment);
+      border: 1px solid var(--stone);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .detail-text strong {
+      display: block;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.8rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--soil); opacity: 0.6;
+    }
+    .detail-text span {
+      font-family: 'Lora', serif;
+      font-size: 0.95rem; color: var(--soil);
+    }
+    /* Form */
+    .contact-form {
+      background: var(--parchment);
+      border-radius: 24px;
+      padding: 2.5rem;
+      border: 1px solid var(--stone);
+    }
+    .contact-form h3 {
+      font-size: 1.4rem; color: var(--soil);
+      margin-bottom: 1.5rem;
+    }
+    .form-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group.full { grid-column: 1 / -1; }
+    label {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.8rem; font-weight: 700;
+      color: var(--soil); letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    input, textarea, select {
+      background: var(--cream);
+      border: 1.5px solid var(--stone);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      font-family: 'Lora', serif; font-size: 0.95rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--terracotta);
+      box-shadow: 0 0 0 3px rgba(193,99,58,0.12);
+    }
+    textarea { resize: vertical; min-height: 130px; }
+    .form-interest {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+    .interest-chip {
+      background: var(--cream);
+      border: 1.5px solid var(--stone);
+      border-radius: 100px;
+      padding: 0.4rem 1rem;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.82rem; font-weight: 600;
+      color: var(--soil); cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      user-select: none;
+    }
+    .interest-chip:hover,
+    .interest-chip.active {
+      background: var(--terracotta);
+      border-color: var(--terracotta);
+      color: var(--cream);
+    }
+    .form-submit {
+      width: 100%;
+      background: var(--terracotta);
+      color: var(--cream);
+      padding: 1rem;
+      border-radius: 100px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700; font-size: 1rem;
+      border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 4px 20px rgba(193,99,58,0.25);
+    }
+    .form-submit:hover {
+      background: var(--soil);
+      transform: translateY(-2px);
+    }
+    .form-note {
+      text-align: center;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.78rem; color: #9A8878;
+      margin-top: 0.75rem;
+    }
+
+    /* ─── Footer ────────────────────────────────────────── */
+    footer {
+      background: var(--soil);
+      color: var(--parchment);
+      padding: 4rem 2rem 2rem;
+    }
+    .footer-inner {
+      max-width: 1140px; margin: 0 auto;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-brand p {
+      font-size: 0.9rem; color: rgba(240,232,214,0.65);
+      margin-top: 0.75rem; line-height: 1.65;
+    }
+    .footer-brand .nav-logo span { color: var(--parchment); }
+    .footer-brand .nav-logo span em { color: var(--sun-light); }
+    .footer-col h4 {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--sun-light);
+      margin-bottom: 1rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col ul a {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.88rem; color: rgba(240,232,214,0.65);
+      transition: color 0.2s;
+    }
+    .footer-col ul a:hover { color: var(--parchment); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-bottom p {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.8rem; color: rgba(240,232,214,0.45);
+    }
+
+    /* ─── Image Placeholder Component ──────────────────── */
+    .ph {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.6rem;
+      background: linear-gradient(135deg, var(--mist) 0%, var(--stone) 100%);
+      color: var(--soil); opacity: 0.65;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.03em; text-align: center; padding: 1rem;
+    }
+    .ph svg { opacity: 0.4; }
+
+    /* ─── Animations ────────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-up:nth-child(2) { transition-delay: 0.1s; }
+    .fade-up:nth-child(3) { transition-delay: 0.2s; }
+    .fade-up:nth-child(4) { transition-delay: 0.3s; }
+
+    /* ─── Responsive ────────────────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-image { display: none; }
+      .hero-text { padding: 4rem 1.5rem 3rem; }
+      .about-grid,
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .services-grid,
+      .t-grid { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .process-grid::before { display: none; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ─────────────────────────────────────── -->
+  <nav id="main-nav">
+    <div class="nav-logo">
+      <svg class="sun-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="18" cy="18" r="8" fill="#E8973A"/>
+        <g stroke="#E8973A" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="4"  x2="18" y2="1"/>
+          <line x1="18" y1="35" x2="18" y2="32"/>
+          <line x1="4"  y1="18" x2="1"  y2="18"/>
+          <line x1="35" y1="18" x2="32" y2="18"/>
+          <line x1="8.1" y1="8.1" x2="6" y2="6"/>
+          <line x1="30" y1="30" x2="27.9" y2="27.9"/>
+          <line x1="27.9" y1="8.1" x2="30" y2="6"/>
+          <line x1="6" y1="30" x2="8.1" y2="27.9"/>
+        </g>
+      </svg>
+      <span>Bay Area Tiny Solar<em>Off-Grid Energy Coaching</em></span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">How It Works</a></li>
+      <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── HERO ─────────────────────────────────────── -->
+  <section class="hero" id="home">
+    <div class="hero-sun-bg"></div>
+    <div class="hero-text">
+      <span class="hero-eyebrow">Bay Area · California</span>
+      <h1 class="hero-title">Small systems.<br><em>Big freedom.</em></h1>
+      <p class="hero-subtitle">
+        We coach Bay Area homeowners through designing and installing compact,
+        permit-free solar, wind, and battery systems — no utility company required.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Send Us a Message</a>
+        <a href="#services" class="btn-secondary">Explore Services</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">120+</div>
+          <div class="stat-label">Systems Designed</div>
+        </div>
+        <div>
+          <div class="stat-num">$0</div>
+          <div class="stat-label">Permit Fees</div>
+        </div>
+        <div>
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Off-Grid Capable</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="hero-img-frame">
+        <div class="ph">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Photo: rooftop or backyard solar panel installation
+        </div>
+      </div>
+      <div class="hero-badge">
+        <div class="badge-icon">☀️</div>
+        <div class="badge-text">
+          <strong>No permit needed</strong>
+          <span>Systems under 240W exempted</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ─────────────────────────────────────── -->
+  <section class="about" id="about">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-img-wrap">
+          <div class="about-img-main">
+            <div class="ph">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Photo: coach with a homeowner outdoors
+            </div>
+          </div>
+          <div class="about-img-accent">
+            <div class="ph" style="font-size:0.7rem;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              Photo: small battery setup in a garage
+            </div>
+          </div>
+        </div>
+        <div class="about-body">
+          <span class="section-label">Our Story</span>
+          <h2 class="section-title">Energy independence<br>for <em>every</em> home</h2>
+          <p>
+            Bay Area Tiny Solar was born out of frustration with complicated permitting,
+            expensive contractors, and one-size-fits-all solutions. We believe every
+            homeowner deserves clean, reliable backup power without the red tape.
+          </p>
+          <p>
+            We specialize in small-scale, off-grid-capable systems — the kind that keep
+            your lights on during PSPS events, charge your devices from the sun, and give
+            you real peace of mind. Our coaching approach means you understand every part
+            of your system, from panel to battery to breaker.
+          </p>
+          <div class="about-highlights">
+            <div class="highlight-item">
+              <div class="highlight-dot"></div>
+              <p><strong>Permit-free by design</strong> — we work within California's small system exemptions so you skip the red tape entirely.</p>
+            </div>
+            <div class="highlight-item">
+              <div class="highlight-dot"></div>
+              <p><strong>Coaching, not contracting</strong> — we empower you to understand and own your system, not depend on us forever.</p>
+            </div>
+            <div class="highlight-item">
+              <div class="highlight-dot"></div>
+              <p><strong>Right-sized for your needs</strong> — no bloated systems; just clean energy matched to your actual usage.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SERVICES ───────────────────────────────────── -->
+  <section class="services" id="services">
+    <div class="section-inner" style="padding-top: 8rem; padding-bottom: 8rem;">
+      <div style="text-align:center; max-width:600px; margin:0 auto 1rem;">
+        <span class="section-label">What We Offer</span>
+        <h2 class="section-title">Coaching packages<br>built for <em>real homes</em></h2>
+        <p style="color:#5C4A38;">From a single panel on a shed to a whole-home backup system, we design for your space, your budget, and your goals.</p>
+      </div>
+      <div class="services-grid">
+
+        <div class="service-card fade-up">
+          <div class="service-card-img">
+            <div class="ph">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              Photo: solar panels on a small roof or pergola
+            </div>
+          </div>
+          <div class="service-icon">☀️</div>
+          <h3>Solar System Design</h3>
+          <p>
+            We assess your energy needs and sunlight exposure to design a compact,
+            efficient photovoltaic system tailored to your home or outbuilding —
+            no guesswork, no oversizing.
+          </p>
+          <a href="#contact" class="service-link">Start a conversation →</a>
+        </div>
+
+        <div class="service-card fade-up">
+          <div class="service-card-img">
+            <div class="ph">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+              Photo: lithium battery bank or power wall setup
+            </div>
+          </div>
+          <div class="service-icon">🔋</div>
+          <h3>Battery Backup & Storage</h3>
+          <p>
+            Survive PSPS outages and grid disruptions with a properly sized battery
+            system. We'll help you choose between lithium, LiFePO4, and lead-acid
+            options that fit your budget and load requirements.
+          </p>
+          <a href="#contact" class="service-link" style="color:var(--forest)">Start a conversation →</a>
+        </div>
+
+        <div class="service-card fade-up">
+          <div class="service-card-img">
+            <div class="ph">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              Photo: someone reviewing a system diagram or checklist
+            </div>
+          </div>
+          <div class="service-icon">📋</div>
+          <h3>Permit Guidance & Avoidance</h3>
+          <p>
+            California's small system exemptions are your friend. We'll walk you through
+            exactly which rules apply to your setup and how to design systems that stay
+            comfortably within the no-permit threshold.
+          </p>
+          <a href="#contact" class="service-link">Start a conversation →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW IT WORKS ───────────────────────────────── -->
+  <section class="process" id="process">
+    <div class="section-inner">
+      <div style="text-align:center; max-width:540px; margin:0 auto;">
+        <span class="section-label">The Process</span>
+        <h2 class="section-title">From first chat to<br><em>first kilowatt</em></h2>
+      </div>
+      <div class="process-grid">
+        <div class="process-step fade-up">
+          <div class="step-num">1</div>
+          <h3>Free Consultation</h3>
+          <p>Tell us about your home, energy goals, and budget. We listen before we recommend anything.</p>
+        </div>
+        <div class="process-step fade-up">
+          <div class="step-num">2</div>
+          <h3>Custom System Design</h3>
+          <p>We create a detailed system plan — components, wiring diagram, cost breakdown, and installation guide.</p>
+        </div>
+        <div class="process-step fade-up">
+          <div class="step-num">3</div>
+          <h3>Coaching Session</h3>
+          <p>We walk you through the install step-by-step, in person or via video. You do the work; we're right there.</p>
+        </div>
+        <div class="process-step fade-up">
+          <div class="step-num">4</div>
+          <h3>System Live & Verified</h3>
+          <p>Once your system is running, we review performance together and answer any follow-up questions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GALLERY STRIP ──────────────────────────────── -->
+  <div class="gallery-strip">
+    <div class="gallery-track">
+      <!-- 8 items × 2 sets for seamless loop -->
+      <div class="gallery-item"><div class="ph" style="font-size:0.7rem;">Photo: panels on shed roof</div></div>
+      <div class="gallery-item"><div class="ph" style="font-size:0.7rem;">Photo: battery wall in garage</div></div>
+      <div class="gallery-item"><div class="ph" style="font-size:0.7rem;">Photo: wind turbine in yard</div></div>
+      <div class="gallery-item"><div class="ph" style="font-size:0.7rem;">Photo: charge controller closeup</div></div>
+      <div class="gallery-item"><div class="ph" style="font-size:0.7rem;">Photo: Bay Area hills at sunset</div></div>
+      <div class="gallery-item"><div class="ph" style="font-size:0.7rem;">Photo: wiring diagram on table</div></div>
+      <div class="gallery-item"><div class="ph" style="font-size:0.7rem;">Photo: inverter and breaker box</div></div>
+      <div class="gallery-item"><div class="ph" style="font-size:0.7rem;">Photo: homeowner and coach outside</div></div>
+      <!-- duplicate for loop -->
+      <div class="gallery-item"><div class="ph" style="font-size:0.7rem;">Photo: panels on shed roof</div></div>
+      <div class="gallery-item"><div class="ph" style="font-size:0.7rem;">Photo: battery wall in garage</div></div>
+      <div class="gallery-item"><div class="ph" style="font-size:0.7rem;">Photo: wind turbine in yard</div></div>
+      <div class="gallery-item"><div class="ph" style="font-size:0.7rem;">Photo: charge controller closeup</div></div>
+      <div class="gallery-item"><div class="ph" style="font-size:0.7rem;">Photo: Bay Area hills at sunset</div></div>
+      <div class="gallery-item"><div class="ph" style="font-size:0.7rem;">Photo: wiring diagram on table</div></div>
+      <div class="gallery-item"><div class="ph" style="font-size:0.7rem;">Photo: inverter and breaker box</div></div>
+      <div class="gallery-item"><div class="ph" style="font-size:0.7rem;">Photo: homeowner and coach outside</div></div>
+    </div>
+  </div>
+
+  <!-- ── TESTIMONIALS ───────────────────────────────── -->
+  <section class="testimonials" id="testimonials">
+    <div class="section-inner">
+      <div style="text-align:center; max-width:540px; margin:0 auto;">
+        <span class="section-label">Kind Words</span>
+        <h2 class="section-title">Neighbors who went <em>off-grid</em></h2>
+      </div>
+      <div class="t-grid">
+        <div class="t-card fade-up">
+          <div class="t-stars">★★★★★</div>
+          <p>"We survived two PSPS events last fall without a single outage. The whole system cost less than $1,200 and took one weekend to install. Worth every penny — and the coaching was genuinely fun."</p>
+          <div class="t-author">
+            <div class="t-avatar"><div class="ph" style="font-size:0.6rem;">Photo</div></div>
+            <div>
+              <div class="t-name">Marisela R.</div>
+              <div class="t-location">Sonoma County</div>
+            </div>
+          </div>
+        </div>
+        <div class="t-card fade-up">
+          <div class="t-stars">★★★★★</div>
+          <p>"I was terrified of doing any electrical work myself. They broke it down so simply I actually understood what I was doing. My garden shed now runs entirely on solar and I did it myself."</p>
+          <div class="t-author">
+            <div class="t-avatar"><div class="ph" style="font-size:0.6rem;">Photo</div></div>
+            <div>
+              <div class="t-name">Derek T.</div>
+              <div class="t-location">Oakland Hills</div>
+            </div>
+          </div>
+        </div>
+        <div class="t-card fade-up">
+          <div class="t-stars">★★★★★</div>
+          <p>"The permit guidance alone was worth the coaching fee. I had no idea I could run a full backup system without ever talking to the city. Setup took one Saturday and now I'm basically off-grid."</p>
+          <div class="t-author">
+            <div class="t-avatar"><div class="ph" style="font-size:0.6rem;">Photo</div></div>
+            <div>
+              <div class="t-name">Priya M.</div>
+              <div class="t-location">San Jose</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ────────────────────────────────────── -->
+  <section class="contact" id="contact">
+    <div class="section-inner">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <span class="section-label">Get in Touch</span>
+          <h2 class="section-title">Let's talk about<br>your <em>system</em></h2>
+          <p>
+            Whether you have a rough idea or a detailed wishlist, send us a message.
+            We'll get back to you within one business day with honest thoughts and
+            zero sales pressure.
+          </p>
+          <div class="contact-details">
+            <div class="contact-detail-item">
+              <div class="detail-icon">📍</div>
+              <div class="detail-text">
+                <strong>Service Area</strong>
+                <span>San Francisco Bay Area & Northern California</span>
+              </div>
+            </div>
+            <div class="contact-detail-item">
+              <div class="detail-icon">✉️</div>
+              <div class="detail-text">
+                <strong>Email</strong>
+                <span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="deb6bbb2b2b19ebcbfa7bfacbbbfaab7b0a7adb1b2bfacf0bdb1b3">[email&#160;protected]</a></span>
+              </div>
+            </div>
+            <div class="contact-detail-item">
+              <div class="detail-icon">📞</div>
+              <div class="detail-text">
+                <strong>Phone</strong>
+                <span>(415) 555-0192</span>
+              </div>
+            </div>
+            <div class="contact-detail-item">
+              <div class="detail-icon">🕐</div>
+              <div class="detail-text">
+                <strong>Response Time</strong>
+                <span>Usually within 1 business day</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form">
+          <h3>Send us a message</h3>
+          <p style="font-size:0.85rem; color:#7A6455; font-family:'Nunito',sans-serif; margin-bottom:1.2rem;">What are you most interested in? (select all that apply)</p>
+          <div class="form-interest">
+            <span class="interest-chip" onclick="this.classList.toggle('active')">☀️ Solar Design</span>
+            <span class="interest-chip" onclick="this.classList.toggle('active')">🔋 Battery Backup</span>
+            <span class="interest-chip" onclick="this.classList.toggle('active')">📋 Permit Guidance</span>
+            <span class="interest-chip" onclick="this.classList.toggle('active')">🌬️ Wind Systems</span>
+            <span class="interest-chip" onclick="this.classList.toggle('active')">❓ Not Sure Yet</span>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" placeholder="Jane Smith" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" placeholder="jane@example.com" />
+            </div>
+            <div class="form-group">
+              <label for="city">City / Neighborhood</label>
+              <input type="text" id="city" placeholder="e.g. Oakland, Marin, San Jose" />
+            </div>
+            <div class="form-group">
+              <label for="budget">Rough Budget</label>
+              <select id="budget">
+                <option value="">Select a range…</option>
+                <option>Under $500</option>
+                <option>$500 – $1,500</option>
+                <option>$1,500 – $3,000</option>
+                <option>$3,000+</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label for="message">Tell us about your situation</label>
+              <textarea id="message" placeholder="e.g. I have a detached garage I'd like to power with solar, and I want a small battery backup for outages…"></textarea>
+            </div>
+          </div>
+          <button class="form-submit" onclick="this.textContent='Message Sent! ☀️'; this.style.background='var(--forest)'">
+            Send Message
+          </button>
+          <p class="form-note">🌿 No spam, ever. We'll reply with honest advice, not a sales pitch.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <svg class="sun-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="18" cy="18" r="8" fill="#F4C06A"/>
+              <g stroke="#F4C06A" stroke-width="2" stroke-linecap="round">
+                <line x1="18" y1="4" x2="18" y2="1"/>
+                <line x1="18" y1="35" x2="18" y2="32"/>
+                <line x1="4" y1="18" x2="1" y2="18"/>
+                <line x1="35" y1="18" x2="32" y2="18"/>
+                <line x1="8.1" y1="8.1" x2="6" y2="6"/>
+                <line x1="30" y1="30" x2="27.9" y2="27.9"/>
+                <line x1="27.9" y1="8.1" x2="30" y2="6"/>
+                <line x1="6" y1="30" x2="8.1" y2="27.9"/>
+              </g>
+            </svg>
+            <span>Bay Area Tiny Solar<em>Off-Grid Energy Coaching</em></span>
+          </div>
+          <p>Helping Bay Area homeowners harness the sun, store their own power, and live a little more free — one small system at a time.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#services">Solar Design</a></li>
+            <li><a href="#services">Battery Backup</a></li>
+            <li><a href="#services">Permit Guidance</a></li>
+            <li><a href="#services">Wind Systems</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#process">How It Works</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">CA Small System Guide</a></li>
+            <li><a href="#">Load Calculator</a></li>
+            <li><a href="#">PSPS Prep Checklist</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Bay Area Tiny Solar. All rights reserved.</p>
+        <p>Made with ☀️ in the Bay Area</p>
+      </div>
+    </div>
+  </footer>
 </html>
+
